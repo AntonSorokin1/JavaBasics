@@ -16,10 +16,28 @@ public class CountingService {
         return (matcher.find()) ? s.substring(0, matcher.end()) : "";
     }
 
-    public String solveSimpleEquation(String equation) throws Exception {
+    public String solveEquation(String equation) throws Exception {
         // Remove whitespace and init String Builder
         StringBuilder resultString = new StringBuilder();
         resultString.append(equation.replaceAll("\\s", ""));
+
+        if (resultString.toString().matches(".*[@#$%^&{};,.?!].*"))
+            throw new ForbiddenSymbolsException();
+        if (resultString.toString().matches(".*[-+*/][-+*/]+.*"))
+            throw new MultipleActionException();
+
+        // Find all ( and )
+        int openIndex;
+        while ((openIndex = resultString.toString().lastIndexOf('(')) != -1) {
+            int closeIndex = resultString.toString().substring(openIndex).indexOf(')');
+            if (closeIndex == -1)
+                throw new CannotFindCloseBracketException();
+            String result = solveEquation(resultString.substring(openIndex + 1, closeIndex + openIndex));
+            resultString.replace(openIndex, closeIndex + openIndex + 1, result);
+        }
+
+        if (resultString.toString().indexOf(')') != -1)
+            throw new CannotFindOpenBracketException();
 
         // Find all * and /
         Pattern highPattern = Pattern.compile("[*/]");
@@ -55,31 +73,5 @@ public class CountingService {
         }
 
         return resultString.toString();
-    }
-
-    public String solveEquation(String equation) throws Exception {
-        // Remove whitespace and init String Builder
-        StringBuilder resultString = new StringBuilder();
-        resultString.append(equation.replaceAll("\\s", ""));
-
-        if (resultString.toString().matches(".*[@#$%^&{};,.?!].*"))
-            throw new ForbiddenSymbolsException();
-        if (resultString.toString().matches(".*[-+*/][-+*/]+.*"))
-            throw new MultipleActionException();
-
-        // Find all ( and )
-        int openIndex;
-        while ((openIndex = resultString.toString().lastIndexOf('(')) != -1) {
-            int closeIndex = resultString.toString().substring(openIndex).indexOf(')');
-            if (closeIndex == -1)
-                throw new CannotFindCloseBracketException();
-            String result = solveSimpleEquation(resultString.substring(openIndex + 1, closeIndex + openIndex));
-            resultString.replace(openIndex, closeIndex + openIndex + 1, result);
-        }
-
-        if (resultString.toString().indexOf(')') != -1)
-            throw new CannotFindOpenBracketException();
-
-        return solveSimpleEquation(resultString.toString());
     }
 }
