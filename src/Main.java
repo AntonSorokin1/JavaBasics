@@ -30,8 +30,6 @@ public class Main {
 
         List<Student> studentList = Arrays.asList(student1, student2);
 
-        StudentService studentService = new StudentService();
-
-        studentService.studentsResult(studentList);
+        new StudentService().studentsResult(studentList);
     }
 }
