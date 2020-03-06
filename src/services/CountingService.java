@@ -15,7 +15,7 @@ public class CountingService {
     }
 
     public String solveSimpleEquation(String equation) {
-        // Remove whitespace
+        // Remove whitespace and init String Builder
         StringBuilder resultString = new StringBuilder();
         resultString.append(equation.replaceAll("\\s", ""));
 
@@ -50,5 +50,21 @@ public class CountingService {
         }
 
         return resultString.toString();
+    }
+
+    public String solveEquation(String equation) {
+        // Remove whitespace and init String Builder
+        StringBuilder resultString = new StringBuilder();
+        resultString.append(equation.replaceAll("\\s", ""));
+
+        // Find all ( and )
+        int openIndex;
+        while ((openIndex = resultString.toString().lastIndexOf('(')) != -1) {
+            int closeIndex = resultString.toString().substring(openIndex).indexOf(')') + openIndex;
+            String result = solveSimpleEquation(resultString.substring(openIndex + 1, closeIndex));
+            resultString.replace(openIndex, closeIndex + 1, result);
+        }
+
+        return solveSimpleEquation(resultString.toString());
     }
 }
