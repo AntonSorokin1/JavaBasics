@@ -25,12 +25,13 @@ public class Main {
                 new Course("Технология JAX", 52),
                 new Course("Библиотеки commons", 44)
         );
-        List<Integer> marks2 = Arrays.asList(4, 5, 3, 2, 3, 3, 5, 5);
+        List<Integer> marks2 = Arrays.asList(4, 5, 3, 5, 3, 3, 5, 5);
         Student student2 = new Student("Petrov Petr", "Java Developer", new GregorianCalendar(2020, Calendar.MARCH, 5), courseList2, marks2);
+
+        List<Student> studentList = Arrays.asList(student1, student2);
 
         StudentService studentService = new StudentService();
 
-        System.out.println(studentService.studyResult(student1));
-        System.out.println(studentService.studyResult(student2));
+        studentService.studentsResult(studentList);
     }
 }
