@@ -1,5 +1,11 @@
+import services.CountingService;
+
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello, World!");
+        String input = "46 + 2 * 357 - 60 / 10";
+
+        CountingService countingService = new CountingService();
+
+        System.out.println(countingService.solveSimpleEquation(input));
     }
 }
