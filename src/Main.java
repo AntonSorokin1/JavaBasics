@@ -6,6 +6,11 @@ public class Main {
 
         CountingService countingService = new CountingService();
 
-        System.out.println(countingService.solveEquation(input));
+        try {
+            System.out.println(countingService.solveEquation(input));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
