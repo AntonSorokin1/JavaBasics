@@ -9,7 +9,7 @@ public class CountingTask {
         CountingService countingService = new CountingService();
 
         try {
-            System.out.println(countingService.solveEquation(input));
+            System.out.println(input + " = " + countingService.solveEquation(input));
         }
         catch (Exception e) {
             e.printStackTrace();
